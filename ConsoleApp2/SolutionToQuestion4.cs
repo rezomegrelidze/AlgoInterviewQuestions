@@ -32,12 +32,14 @@ public class SpecialDict<TKey,TValue>
 
     public TValue Get(TKey key)
     {
-        if (dict.TryGetValue(key, out var tuple)
-            && tuple.version >= _version)
+        if (dict.TryGetValue(key, out var tuple))
         {
-            return tuple.value;
+            if (tuple.version >= _version)
+                return tuple.value;
+            else return _globalValue;
         }
-        return _globalValue;
+
+        throw new KeyNotFoundException();
     }
 
     public void Set(TKey key, TValue value)
