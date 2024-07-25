@@ -34,9 +34,7 @@ public class SpecialDict<TKey,TValue>
     {
         if (dict.TryGetValue(key, out var tuple))
         {
-            if (tuple.version >= _version)
-                return tuple.value;
-            else return _globalValue;
+            return tuple.version >= _version ? tuple.value : _globalValue;
         }
 
         throw new KeyNotFoundException();
